@@ -1,0 +1,15 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %} Payment successful {% endblock %}
+{% block body %}
+{% endblock %}
+
+{% block js %}
+
+<script>
+    alert("Payment successful");
+    localStorage.clear();
+    document.location='/shop';
+</Script>
+
+{% endblock %}

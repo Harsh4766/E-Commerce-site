@@ -1,0 +1,55 @@
+{% extends 'shop/basic.html'%}
+
+{% block title %} Contact Us {% endblock %}
+
+{% block body %} 
+
+<div class="alert alert-dark" role="alert">
+    <b>Welcome</b> to our contact section
+  </div>
+  <div class="container">
+    <form action="/shop/contact" method="post">{% csrf_token %}
+  <div class="mb-3">
+    <label for="nametext" class="form-label">Name</label>
+    <input type="text" class="form-control" id="nametext" name="name" placeholder="Enter your name here">
+  </div>
+  <div class="mb-3">
+    <label for="emailtext" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="emailtext" name="email" placeholder="name@example.com">
+  </div>
+  <div class="mb-3">
+    <label for="querytext" class="form-label">Query</label>
+    <textarea class="form-control" id="querytext" rows="3" name="query" placeholder="Enter your query here"></textarea>
+  </div>
+  <button type="submit" class="btn btn-outline-primary mb-3" id="submitForm" data-temp="{{temp}}">
+    Submit
+  </button>
+</form>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    var temp=document.getElementById('submitForm').getAttribute('data-temp');
+    if(temp)
+    {
+      alert("Your query submitted successfully");
+      document.location='/shop';
+    }
+    var submit=document.getElementById('submitForm');
+    submit.addEventListener('click',function(event)
+    {
+       name=document.getElementById('nametext').value;
+       email=document.getElementById('emailtext').value;
+       query=document.getElementById('querytext').value;
+
+       if(name==""|| email==""|| query=="")
+       {
+        alert('Please fill all the fields correctly');
+        event.preventDefault();
+       }
+    });
+</script>
+
+{% endblock %}

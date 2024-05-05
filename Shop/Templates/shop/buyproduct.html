@@ -1,0 +1,47 @@
+{% extends 'shop/basic.html' %}
+{% block body %}
+<div class="container my-4">
+<div>
+    <ul class="list-group" id="items"></ul>
+</div>
+<h5 class="my-4">Your order id is:{{id}}</h5>
+<b><h5>Your cart total is rs. <span id="totalbill"></span> please enter your details below to place your order.Thanks for using our website.</h5></b>
+{% csrf_token %}
+<form class="text-center border border-light p-5" action="/shop/payment-success" method="post">
+  <script src="https://checkout.razorpay.com/v1/checkout.js" 
+  data-key="rzp_test_mLZnn2lKgLr1ZV" 
+  data-amount="{{amount}}"
+  data-currency="INR" 
+  data-order_id="{{payment.id}}" 
+  data-buttontext="Pay with Razorpay"
+  data-name="My awesome cart"
+  data-description="Django and Data Science"
+  data-image="https://example.com/your_logo.jpg" 
+  data-prefill.name="Harsh Yadav"
+  data-prefill.email="yadavhd04@gmail.com" 
+  data-theme.color="#F37254"></script>
+</form>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    if (localStorage.getItem("cart") == null) {
+        var cart = {};
+      } else {
+        cart = JSON.parse(localStorage.getItem("cart"));
+      }
+      var sum=0;
+      var totalprice=0;
+      for (var item in cart) {
+        var qty = cart[item][0];
+        var name = cart[item][1];
+        var price=cart[item][2];
+        sum=sum+qty;
+        totalprice=totalprice+qty*price;
+        var itemstr ='<li class="list-group-item d-flex justify-content-between align-items-center">'+name+'<span class="badge bg-primary rounded-pill">'+qty+'</span></li>';
+          $('#items').append(itemstr);
+          document.getElementById('totalbill').innerHTML=totalprice;
+      }
+</script>
+{% endblock %}
